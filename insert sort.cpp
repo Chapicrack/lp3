@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <chrono>
 using namespace std;
 
 /* Function to sort array using insertion sort */
@@ -28,14 +28,35 @@ void printArray(int arr[], int n)
     cout << endl;
 }
 
-// Driver method
+/* Function to generate an array in reverse order (worst case) */
+void generateWorstCase(int arr[], int n)
+{
+    for (int i = 0; i < n; ++i) {
+        arr[i] = n - i;
+    }
+}
+
 int main()
 {
-    int arr[] = { 12, 11, 13, 5, 6 };
-    int n = sizeof(arr) / sizeof(arr[0]);
+    int n = 10000; // You can adjust this value for larger arrays
+    int* arr = new int[n];
 
+    generateWorstCase(arr, n);
+
+    // Measure time taken by insertionSort
+    auto start = chrono::high_resolution_clock::now();
+    
     insertionSort(arr, n);
-    printArray(arr, n);
+    
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> elapsed = end - start;
+    
+    cout << "Time taken by Insertion Sort for worst case (array size " << n << "): " 
+         << elapsed.count() << " seconds" << endl;
+    
+    // Uncomment the line below to print the sorted array
+    // printArray(arr, n);
 
+    delete[] arr;
     return 0;
 }
